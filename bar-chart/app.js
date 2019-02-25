@@ -1,7 +1,7 @@
 d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json").then(function(data){
   dataset = data["data"];
-  const w = 700;
-  const h = 500;
+  const w = 800;
+  const h = 600;
   const padding = 60;
   const color = '#e4aa7c';
 
@@ -32,13 +32,11 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
      .attr("transform", "translate(" +(w-padding) + " ,"+padding+")")
      .call(yAxis);
 
-
   bars = svg.selectAll("rect")
             .data(dataset)
             .enter()
             .append("rect")
             .attr("class","bar")
-
 
   bars.attr("x",(d,i)=>padding+i*(w-padding*2)/dataset.length)
       .attr("y",(d)=>padding+yScale(d[1]))
@@ -47,7 +45,24 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
       .attr("fill", color)
       .attr("data-date",(d)=>d[0])
       .attr("data-gdp",(d)=>d[1])
-
+      .on("mouseover", function(d) {
+				var xPosition = parseFloat(d3.select(this).attr("x")) ;
+				var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h/ 2;
+				d3.select("#tooltip")
+					.style("left", xPosition + "px")
+					.style("top", yPosition + "px")
+          .attr("data-date",d[0])
+					.select("#data-date")
+					.text(d[0])
+        d3.select("#tooltip")
+          .attr("data-gdp",d[1])
+          .select("#data-gdp")
+  				.text(d[1]);
+				d3.select("#tooltip").classed("hidden", false);
+		   })
+		   .on("mouseout", function() {
+				d3.select("#tooltip").classed("hidden", true);
+		   })
   // d3.select("div#container")
   //   .append("div")
   //   .classed("svg-container", true) //container class to make it responsive
