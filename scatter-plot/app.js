@@ -53,8 +53,8 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 				var yPosition = parseFloat(d3.select(this).attr("cy")) +padding*2;
         var year = d3.select(this).attr("data-xvalue");
 				d3.select("#tooltip")
-					.style("left", xPosition)
-					.style("top", yPosition)
+					.style("left", (d3.event.pageX+30)+ "px")
+					.style("top", (d3.event.pageY - 30) + "px")
           .attr("data-year",year)
 					.select("#data-year")
 					.text(year);
@@ -70,5 +70,7 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 				d3.select("#tooltip").classed("hidden", true);
 		   })
 
-  svg.selectAll
+   var svgLegned4 = d3.select(".legend4").append("svg")
+             .attr("width", width)
+             .attr("height", height - 50)
 });
