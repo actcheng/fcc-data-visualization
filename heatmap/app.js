@@ -9,9 +9,15 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
   const padding = 60;
   const minYear = d3.min(dataset, (d) => d.year)
   const maxYear = d3.max(dataset, (d) => d.year)
+  const minTemp = d3.min(dataset, (d) => d.variance)+baseTemperature;
+  const maxTemp = d3.max(dataset, (d) => d.variance)+baseTemperature;
   const cellWidth = (w-2*padding)/(maxYear-minYear+1);
   const cellHeight = (h-2*padding)/12;
-  console.log(cellWidth,cellHeight);
+
+  var colors = d3.scaleQuantize()
+    .domain([minTemp,maxTemp])
+    .range(["#a50026","#d73027","#f46d43","#fdae61","#fee090","#ffffbf","#e0f3f8","#abd9e9","#74add1","#4575b4","#313695"].reverse());
+
   var xScale = d3.scaleLinear()
                   .domain([minYear, maxYear])
                   .range([padding, w-padding]);
@@ -24,7 +30,7 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
                 .attr("height",h)
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
-  const yAxis = d3.axisLeft(yScale);
+  const yAxis = d3.axisLeft(yScale).tickFormat((d)=>monthNames[d-1]);
 
   svg.append("g")
      .attr("id","x-axis")
@@ -48,6 +54,8 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
       .attr('height',cellHeight)
       .attr("data-month",(d)=>d.month-1)
       .attr("data-year",(d)=>d.year)
+      .attr("data-temp",(d)=>baseTemperature+d.variance)
+      .attr("fill",(d)=>colors(baseTemperature+d.variance))
       .on("mouseover", function(d) {
 				var xPosition = parseFloat(d3.select(this).attr("x")) ;
 				var yPosition = parseFloat(d3.select(this).attr("y")) ;
@@ -62,14 +70,15 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
         d3.select("#tooltip")
           .select("#data-month")
   				.text(monthNames[d.month-1]);
-        // d3.select("#tooltip")
-        //   .select("#data-name")
-  			// 	.text(d.Name);
+        d3.select("#tooltip")
+          .select("#data-temp")
+  				.text(Math.round((d.variance+baseTemperature)*100)/100);
 				 d3.select("#tooltip").classed("hidden", false);
 		   })
 		   .on("mouseout", function() {
 				d3.select("#tooltip").classed("hidden", true);
 		   })
 
+       console.log(colors.range())
 
 });
