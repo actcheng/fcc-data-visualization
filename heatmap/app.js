@@ -6,6 +6,7 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 
   const w = 1800;
   const h = 600;
+  const legendBoxHeight = 40;
   const padding = 60;
   const minYear = d3.min(dataset, (d) => d.year)
   const maxYear = d3.max(dataset, (d) => d.year)
@@ -14,9 +15,12 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
   const cellWidth = (w-2*padding)/(maxYear-minYear+1);
   const cellHeight = (h-2*padding)/12;
 
+  const colorList = ["#a50026","#d73027","#f46d43","#fdae61","#fee090","#ffffbf","#e0f3f8","#abd9e9","#74add1","#4575b4","#313695"].reverse();
   var colors = d3.scaleQuantize()
     .domain([minTemp,maxTemp])
-    .range(["#a50026","#d73027","#f46d43","#fdae61","#fee090","#ffffbf","#e0f3f8","#abd9e9","#74add1","#4575b4","#313695"].reverse());
+    .range(colorList);
+  var colorBreaks = d3.range(1,colorList.length)
+                      .map((i)=>i*(maxTemp-minTemp)/colorList.length+minTemp)
 
   var xScale = d3.scaleLinear()
                   .domain([minYear, maxYear])
@@ -28,6 +32,10 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
                 .append("svg")
                 .attr("width",w)
                 .attr("height",h)
+  const svgLegend = d3.select("#legend")
+                .append("svg")
+                .attr("width",legendBoxHeight*colorList.length)
+                // .attr("height",legendBoxHeight*2)
 
   const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
   const yAxis = d3.axisLeft(yScale).tickFormat((d)=>monthNames[d-1]);
@@ -79,6 +87,24 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
 				d3.select("#tooltip").classed("hidden", true);
 		   })
 
-       console.log(colors.range())
+
+   legendRects = svgLegend.selectAll("rect")
+             .data(colorList)
+             .enter()
+             .append("rect")
+             .attr("class","legend-rect")
+             .attr("x",(d,i)=>legendBoxHeight *i)
+             // .attr("y",h)
+             .attr('width',legendBoxHeight )
+             .attr('height',legendBoxHeight )
+             .attr("fill",(d)=>d)
+   legendTexts = svgLegend.selectAll("text")
+             .data(colorBreaks)
+             .enter()
+             .append("text")
+              .attr("class","legend-text")
+             .attr("x",(d,i)=>legendBoxHeight *(i+1)-10)
+             .attr("y",legendBoxHeight*1.5)
+             .text((d)=>Number.parseFloat(d).toFixed(1))
 
 });
