@@ -1,0 +1,24 @@
+<head>
+  <title>Choropleth map: United States Educational Attainment</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="tooltip" class="hidden">
+    <p>
+       <span id="data-county">100</span>(
+       <span id="data-state">100</span>)<br>
+       <span id="data-education">100</span>
+    </p>
+  </div>
+
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+  <script src="../script/d3.v5.js"></script>
+  <script src="../script/topojson.v0.min.js"></script>
+  <script src="app.js"></script>
+
+  <div id="title">United States Educational Attainment</div>
+  <div id="description">Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)</div>
+  <div id="legend"></div>
+  <div id="container"></div>
+
+</body>
