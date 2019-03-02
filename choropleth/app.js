@@ -66,54 +66,6 @@ d3.json("https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-f
   	d3.select("#tooltip").classed("hidden", true);
    })
 
-  // svg.append("g")
-  //    .attr("id","x-axis")
-  //    .attr("transform", "translate(0,"+ (h-padding) + ")")
-  //    .call(xAxis);
-  //
-  // svg.append("g")
-  //    .attr("id","y-axis")
-  //    .attr("transform", "translate(" +padding + " ,"+padding+")")
-  //    .call(yAxis);
-  //
-  // dots = svg.selectAll("rect")
-  //           .data(dataset)
-  //           .enter()
-  //           .append("rect")
-  //           .attr("class","cell")
-  //
-  // dots.attr("x",(d)=>xScale(d.year))
-  //     .attr("y",(d)=>yScale(d.month+1))
-  //     .attr('width',cellWidth)
-  //     .attr('height',cellHeight)
-  //     .attr("data-month",(d)=>d.month-1)
-  //     .attr("data-year",(d)=>d.year)
-  //     .attr("data-temp",(d)=>baseTemperature+d.variance)
-  //     .attr("fill",(d)=>colors(baseTemperature+d.variance))
-  //     .on("mouseover", function(d) {
-	// 			var xPosition = parseFloat(d3.select(this).attr("x")) ;
-	// 			var yPosition = parseFloat(d3.select(this).attr("y")) ;
-  //       var year = d3.select(this).attr("data-year");
-	// 			d3.select("#tooltip")
-	// 				.style("left", (d3.event.pageX +10)+ "px")
-	// 				.style("top", (d3.event.pageY - 30) + "px")
-  //         .attr("data-year",year)
-	// 				.select("#data-year")
-	// 				.text(year);
-  //
-  //       d3.select("#tooltip")
-  //         .select("#data-month")
-  // 				.text(monthNames[d.month-1]);
-  //       d3.select("#tooltip")
-  //         .select("#data-temp")
-  // 				.text(Math.round((d.variance+baseTemperature)*100)/100);
-	// 			 d3.select("#tooltip").classed("hidden", false);
-	// 	   })
-	// 	   .on("mouseout", function() {
-	// 			d3.select("#tooltip").classed("hidden", true);
-	// 	   })
-  //
-  //
    legendRects = svgLegend.selectAll("rect")
              .data(colorList)
              .enter()
